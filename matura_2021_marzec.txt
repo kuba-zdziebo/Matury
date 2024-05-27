@@ -1,0 +1,76 @@
+def task1():
+    with open("galerie.txt", "r") as file, open("4.1.txt", "w") as result:
+        country = {}
+        for line in file:
+            line = line.strip()
+            line = line.split()[0]
+            if line in country:
+                country[line] += 1
+            else:
+                country[line] = 1
+
+        result.write(f"{country}\n")
+
+
+def task2():
+    with open("galerie.txt", "r") as file, open("4.2a.txt", "w") as result1, open("4.2b.txt", "w") as result2:
+        lines = [line.split() for line in file]
+        cities = []
+        totalsurfaca = []
+        shops = []
+        shop = 0
+        surface = 0
+        maxsurface = 0
+        minsurface = 10000000
+        maxcity = ""
+        mincity = ""
+        for line in lines:
+            cities.append(line[1])
+            for i in range(2, 140):
+                if i % 2 == 0:
+                    surface += int(line[i]) * int(line[i+1])
+                    if (int(line[i]) * int(line[i+1])) > 0:
+                        shop += 1
+            if surface > maxsurface:
+                maxsurface = surface
+                maxcity = str(line[1])
+            if surface < minsurface:
+                minsurface = surface
+                mincity = str(line[1])
+            totalsurfaca.append(surface)
+            shops.append(shop)
+            surface = 0
+            shop = 0
+        for i in range(0, len(cities)):
+            result1.write(f"{cities[i]} {totalsurfaca[i]} {shops[i]}\n")
+        result2.write(f"{maxcity} {maxsurface}\n{mincity} {minsurface}")
+
+
+def task3():
+    maxdiff = 0
+    maxcity = ''
+    mindiff = 100000
+    mincity = ''
+    with open("galerie.txt", "r") as file, open("4.3.txt", "w") as result:
+        lines = [line.split() for line in file]
+        for line in lines:
+            city = line[1]
+            different = set()
+            for i in range(2, len(line)):
+                if i % 2 == 0:
+                    if int(line[i]) > 0:
+                        surface = int(line[i]) * int(line[i + 1])
+                        different.add(surface)
+            if len(different) > maxdiff:
+                maxdiff = len(different)
+                maxcity = city
+            if len(different) < mindiff:
+                mindiff = len(different)
+                mincity = city
+        result.write(f"{maxcity} {maxdiff}\n{mincity} {mindiff}")
+
+
+if __name__ == '__main__':
+    task1()
+    task2()
+    task3()

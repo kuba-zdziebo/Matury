@@ -1,0 +1,59 @@
+def task1():
+    with open("sygnaly.txt", "r") as file, open("wynik4.txt", "w") as result:
+        lines = file.readlines()
+        signals = []
+        for line in lines:
+            signals.append(line.strip())
+        message = ""
+        for i in range(39, len(signals), 40):
+            message += signals[i][9]
+        result.write(f"1. message = {message}\n")
+
+
+def number_of_different_characters_in_signal(signal):
+    different_characters = set()
+    for char in signal:
+        different_characters.add(char)
+
+    return len(different_characters)
+
+
+def task2():
+    with open("sygnaly.txt", "r") as file, open("wynik4.txt", "a") as result:
+        lines = file.readlines()
+        signals = []
+        for line in lines:
+            signals.append(line.strip())
+        longest_word = ""
+        max_length = 0
+        for signal in signals:
+            if number_of_different_characters_in_signal(signal) > max_length:
+                longest_word = signal
+                max_length = number_of_different_characters_in_signal(signal)
+        result.write(f"2. longest word = {longest_word}\n")
+        result.write(f"max length = {max_length}\n")
+
+
+def task3():
+    with open("sygnaly.txt") as file, open("wynik4.txt", "a") as result:
+        finish = []
+        for line in file:
+            line = line.strip()
+            maxi = 0
+            mini = ord(line[0])
+            for i in line:
+                if ord(i) > maxi:
+                    maxi = ord(i)
+                if ord(i) < mini:
+                    mini = ord(i)
+            if abs(maxi - mini) <= 10:
+                finish.append(line)
+        result.write(f"4. SIGNALS \n")
+        for i in finish:
+            result.write(f"{i}\n")
+
+
+if __name__ == '__main__':
+    task1()
+    task2()
+    task3()

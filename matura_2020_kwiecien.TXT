@@ -1,0 +1,76 @@
+def task1():
+    with open("dane4.txt") as file, open("zadanie4-1.txt", "w") as result:
+        numbers = [line.strip() for line in file]
+        min = abs(int(numbers[0]) - int(numbers[1]))
+        max = abs(int(numbers[0]) - int(numbers[1]))
+        for num in range(len(numbers)-1):
+            gap = abs(int(numbers[num]) - int(numbers[num + 1]))
+            if gap > max:
+                max = gap
+            if gap < min:
+                min = gap
+        result.write(f"MIN: {str(min)}\nMAX: {str(max)}")
+
+
+def task2():
+    with open("dane4.txt") as file, open("zadanie4-2.txt", "w") as result:
+        numbers = [int(line.strip()) for line in file]
+
+        gap = []
+        max_list = []
+
+        for i in range(len(numbers) - 1):
+            gap.append(abs(numbers[i - 1] - numbers[i]))
+
+        count = 1
+
+        for i in range(len(gap)):
+            if gap[i - 1] == gap[i]:
+                count += 1
+            else:
+                count = 1
+            max_list.append(count)
+            
+        max_regular = max(max_list) + 1
+        first_number = numbers[max_list.index(max(max_list)) - max(max_list)]
+        last_number = numbers[max_list.index(max(max_list))]
+        result.write(f"najwiecej wyrazow: {max_regular}\npierwszy wyraz: {first_number}\nostatni wyraz: {last_number}")
+
+
+def task3():
+    with (open("dane4.txt") as file, open("zadanie4-3.txt", "w") as result):
+        numbers = [int(line.strip()) for line in file]
+
+        max_multiplicity = 0
+        max_gap = []
+        gap = []
+        gap_number = []
+        first_gap = abs(numbers[0] - numbers[1])
+        gap.append(first_gap)
+        gap_number.append(1)
+
+        for i in range(1, len(numbers) - 1):
+            current_gap = abs(numbers[i] - numbers[i + 1])
+            current_length = len(gap)
+            for j in range(len(gap)):
+                if current_gap == gap[j]:
+                    gap_number[j] += 1
+            if current_length == len(gap):
+                gap.append(current_gap)
+                gap_number.append(1)
+
+        for i in range(len(gap_number)):
+            if int(gap_number[i]) > max_multiplicity:
+                max_multiplicity = gap_number[i]
+                max_gap.clear()
+                max_gap.append(gap[i])
+            elif int(gap_number[i]) == max_multiplicity:
+                max_gap.append(gap[i])
+
+        result.write(f" najczestrza przerwa: {max_gap}\n ilosc wystapien: {max_multiplicity}")
+
+
+if __name__ == '__main__':
+    task1()
+    task2()
+    task3()
