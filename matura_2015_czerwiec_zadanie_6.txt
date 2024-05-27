@@ -1,0 +1,76 @@
+def task1():
+    with open("kody.txt") as file, open("kody1.txt", "w") as result:
+        odds = []
+        evens = []
+        lines = [line.strip() for line in file]
+        # print(lines)
+        for line in lines:
+            odd = int(line[0]) + int(line[2]) + int(line[4])
+            even = int(line[1]) + int(line[3]) + int(line[5])
+            odds.append(odd)
+            evens.append(even)
+
+        # print(odds)
+        # print(evens)
+
+        for i in range(0, len(lines)):
+            result.write(f"{odds[i]} {evens[i]}\n")
+
+
+def task2():
+    with open("kody.txt") as file, open("kody2.txt", "w") as result:
+        controls = []
+        codes = []
+        barcodes = [10101110111010, 11101010101110, 10111010101110, 11101110101010, 10101110101110, 11101011101010,
+                    10111011101010, 10101011101110, 11101010111010, 10111010111010]
+        lines = [line.strip() for line in file]
+        # print(lines)
+        for line in lines:
+            odd = int(line[0]) + int(line[2]) + int(line[4])
+            even = int(line[1]) + int(line[3]) + int(line[5])
+            sum = (3 * even) + odd
+            rest1 = sum % 10
+            modulo = 10 - rest1
+            rest2 = modulo % 10
+            controls.append(rest2)
+            barcode = barcodes[rest2]
+            codes.append(barcode)
+
+        for i in range(0, len(lines)):
+            result.write(f"{controls[i]} {codes[i]}\n")
+
+
+def task3():
+    with open("kody.txt") as file, open("kody3.txt", "w") as result:
+        controls = []
+        codes = []
+        outcomes = []
+        start = 11011010
+        stop = 11010110
+        barcodes = [10101110111010, 11101010101110, 10111010101110, 11101110101010, 10101110101110, 11101011101010,
+                    10111011101010, 10101011101110, 11101010111010, 10111010111010]
+        lines = [line.strip() for line in file]
+        # print(lines)
+        for line in lines:
+            odd = int(line[0]) + int(line[2]) + int(line[4])
+            even = int(line[1]) + int(line[3]) + int(line[5])
+            sum = (3 * even) + odd
+            rest1 = sum % 10
+            modulo = 10 - rest1
+            rest2 = modulo % 10
+            controls.append(rest2)
+            barcode = barcodes[rest2]
+            codes.append(barcode)
+            for i in range(0, 6):
+                c = int(line[i])
+                outcome = barcodes[c]
+                outcomes.append(outcome)
+
+        for i in range(0, len(lines)):
+            result.write(f"{start}{outcomes[i]}{outcomes[i+1]}{outcomes[i+2]}{outcomes[i+3]}{outcomes[i+4]}{outcomes[i+5]}{outcomes[i+6]}{codes[i]}{stop}\n")
+
+
+if __name__ == '__main__':
+    task1()
+    task2()
+    task3()
